@@ -63,7 +63,7 @@ public class @PlayerInputAction : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""e07eba10-0768-4e4d-8e64-3cb07150aca6"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": ""NormalizeVector2"",
+                    ""processors"": """",
                     ""interactions"": ""Press""
                 }
             ],
@@ -173,7 +173,7 @@ public class @PlayerInputAction : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard/Mouse"",
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

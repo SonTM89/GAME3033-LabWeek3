@@ -27,6 +27,8 @@ namespace Character
 
         private readonly int AimHorizontalHash = Animator.StringToHash("AimHorizontal");
         private readonly int AimVerticalHash = Animator.StringToHash("AimVertical");
+        private readonly int IsFiringHash = Animator.StringToHash("IsFiring");
+        private readonly int IsReloadingHash = Animator.StringToHash("IsReloading");
 
 
         private void Awake()
@@ -67,15 +69,20 @@ namespace Character
             PlayerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, GripIKLocation.position);
         }
 
-        private void OnReload(InputAction.CallbackContext obj)
+        private void OnReload(InputAction.CallbackContext pressed)
         {
             Debug.Log("On Reload");
+            bool isReloading = pressed.ReadValue<float>() == 1 ? true : false;
+            PlayerAnimator.SetBool(IsReloadingHash, isReloading);
         }
 
 
-        private void OnFire(InputAction.CallbackContext obj)
+        private void OnFire(InputAction.CallbackContext pressed)
         {
             Debug.Log("On Fire");
+
+            bool isFiring = pressed.ReadValue<float>() == 1 ? true : false;
+            PlayerAnimator.SetBool(IsFiringHash, isFiring);
         }
 
 
