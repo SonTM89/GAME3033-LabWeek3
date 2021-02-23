@@ -973,6 +973,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1857771425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 716035485, guid: 06165f4edaddac24d8479c57be970d46, type: 3}
+  m_PrefabInstance: {fileID: 455795528847446677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2052240164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1298,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 325164967, guid: 06165f4edaddac24d8479c57be970d46, type: 3}
+      propertyPath: FollowTarget
+      value: 
+      objectReference: {fileID: 1857771425}
+    - target: {fileID: 325164967, guid: 06165f4edaddac24d8479c57be970d46, type: 3}
+      propertyPath: RotationPower
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 325164967, guid: 06165f4edaddac24d8479c57be970d46, type: 3}
+      propertyPath: HorizontalDampling
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3622519119619538339, guid: 06165f4edaddac24d8479c57be970d46, type: 3}
       propertyPath: m_Name
       value: Player Character
