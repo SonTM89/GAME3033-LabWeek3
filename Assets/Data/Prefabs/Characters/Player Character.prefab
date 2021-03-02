@@ -3866,9 +3866,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814b1d967651168438b839787d297594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationPower: 10
-  HorizontalDampling: 1
-  FollowTarget: {fileID: 0}
+  RotationPower: 0.15
+  HorizontalDampling: 20
+  FollowTarget: {fileID: 716035485}
 --- !u!54 &3396665708534010665
 Rigidbody:
   m_ObjectHideFlags: 0

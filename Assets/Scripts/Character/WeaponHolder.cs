@@ -66,6 +66,8 @@ namespace Character
             if (!EquippedWeapon) return;
 
             EquippedWeapon.Initialize(this, PlayerCrossHair);
+
+            PlayerEvents.Invoke_OnWeaponEquipped(EquippedWeapon);
             
             GripIKLocation = EquippedWeapon.GripLocation;
             PlayerAnimator.SetInteger(WeaponTypeHash, (int)EquippedWeapon.WeaponInformation.WeaponType);
@@ -133,18 +135,12 @@ namespace Character
 
         public void StartReloading()
         {
-            if (EquippedWeapon.WeaponInformation.BulletsAvailable <= 0)
+            if (EquippedWeapon.WeaponInformation.BulletsAvailable <= 0 && PlayerController.IsFiring)
             {
-                if (PlayerController.IsFiring)
-                    StopFiring();
+                StopFiring();
                 return;
             }
 
-            if (PlayerController.IsFiring)
-            {
-                WasFiring = true;
-                StopFiring();
-            }
 
             PlayerController.IsReloading = true;
             PlayerAnimator.SetBool(IsReloadingHash, true);
@@ -175,7 +171,7 @@ namespace Character
         {
             Vector2 independentMousePosition = ViewCamera.ScreenToViewportPoint(PlayerCrossHair.CurrentAimPosition);
 
-            Debug.Log(independentMousePosition);
+            //Debug.Log(independentMousePosition);
 
             PlayerAnimator.SetFloat(AimHorizontalHash, independentMousePosition.x);
             PlayerAnimator.SetFloat(AimVerticalHash, independentMousePosition.y);
