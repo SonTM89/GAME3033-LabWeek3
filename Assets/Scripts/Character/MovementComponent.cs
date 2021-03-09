@@ -41,7 +41,9 @@ namespace Character
 
         [SerializeField] private LayerMask JumpLayerMask;
         [SerializeField] private float JumpThreshold = 0.1f;
-        [SerializeField] private float JumpLandingCheckRelay = 0.0f;
+        [SerializeField] private float JumpLandingCheckRelay = 0.1f;
+
+        [SerializeField] private float MoveDirectionBuffer = 2.0f;
 
         // Components
         private PlayerController PlayerController;
@@ -57,6 +59,10 @@ namespace Character
         private Vector2 InputVector = Vector2.zero;
 
         private Vector3 MoveDirection = Vector3.zero;
+
+        private Vector3 NextPositionCheck;
+
+        
 
 
         // Animation Hashes
@@ -95,14 +101,14 @@ namespace Character
         {
             if (PlayerController.IsJumping) return;
 
-            PlayerNavmeshAgent.isStopped = true;
-            PlayerNavmeshAgent.enabled = false;
+            //PlayerNavmeshAgent.isStopped = true;
+            //PlayerNavmeshAgent.enabled = false;
 
             PlayerController.IsJumping = value.isPressed;
             PlayerAnimator.SetBool(IsJumpingHash, value.isPressed);
             PlayerRigidbody.AddForce((PlayerTransform.up + MoveDirection) * JumpForce, ForceMode.Impulse);
 
-            InvokeRepeating(nameof(LandingCheck), JumpLandingCheckRelay, 0.1f);
+            //InvokeRepeating(nameof(LandingCheck), JumpLandingCheckRelay, 0.1f);
         }
 
         private void LandingCheck()
@@ -146,21 +152,34 @@ namespace Character
 
             // PlayerTransform.position += movementDirection;
 
-            PlayerNavmeshAgent.Move(movementDirection);
+            NextPositionCheck = transform.position + MoveDirection * MoveDirectionBuffer;
 
-
+            if(NavMesh.SamplePosition(NextPositionCheck, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+            {
+                transform.position += movementDirection;
+            }
+            
+            //PlayerNavmeshAgent.Move(movementDirection);
         }
 
-        //private void OnCollisionEnter(Collision other)
-        //{
-        //    //if(!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping)
-        //    //{
-        //    //    return;
-        //    //}
+        private void OnCollisionEnter(Collision other)
+        {
+            if (!other.gameObject.CompareTag("Ground") && !PlayerController.IsJumping)
+            {
+                return;
+            }
 
-        //    //PlayerController.IsJumping = false;
-        //    //PlayerAnimator.SetBool(IsJumpingHash, false);
-        //}
+            PlayerController.IsJumping = false;
+            PlayerAnimator.SetBool(IsJumpingHash, false);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if(NextPositionCheck != Vector3.zero)
+            {
+                Gizmos.DrawSphere(NextPositionCheck, 0.5f);
+            }
+        }
+
     }
 }
-
