@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Health;
 
 public class ZombieAttackState : ZombieStates
 {
     private GameObject FollowTarget;
     private float AttackRange = 1.5f;
+
+    private iDamageable DamageableObject;
 
     private static readonly int MovementZHash = Animator.StringToHash("MovementZ");
     private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
@@ -14,6 +17,8 @@ public class ZombieAttackState : ZombieStates
     {
         FollowTarget = followTarget;
         UpdateInterval = 2.0f;
+
+        DamageableObject = followTarget.GetComponent<iDamageable>();
     }
 
 
@@ -30,7 +35,7 @@ public class ZombieAttackState : ZombieStates
     {
         base.IntervalUpdate();
 
-        //TODO: add Damage to object.
+        DamageableObject?.TakeDamage(OwnerZombie.ZombieDamage);
     }
 
     // Update is called once per frame
@@ -43,8 +48,6 @@ public class ZombieAttackState : ZombieStates
         {
             StateMachine.ChangeState(ZombieStateType.Follow);
         }
-
-        //TODO: Zombie Health < 0 Die.
 
     }
 

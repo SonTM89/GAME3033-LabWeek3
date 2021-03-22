@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Health;
 
 public class AK47Component : WeaponComponent
 {
@@ -25,6 +26,9 @@ public class AK47Component : WeaponComponent
             HitLocation = hit.point;
 
 
+            TakeDamage(hit);
+
+
             Vector3 hitDirection = hit.point - MainCamera.transform.position;
             Debug.DrawRay(MainCamera.transform.position, hitDirection.normalized * WeaponStats.FireDistance, Color.red);
         }
@@ -34,6 +38,12 @@ public class AK47Component : WeaponComponent
 
             WeaponHolder.StartReloading();
         }
+    }
+
+    private void TakeDamage(RaycastHit hitInfo)
+    {
+        iDamageable damageable = hitInfo.collider.GetComponent<iDamageable>();
+        damageable?.TakeDamage(WeaponInformation.Damage);
     }
 
     private void OnDrawGizmos()

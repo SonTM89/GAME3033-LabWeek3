@@ -4704,6 +4704,7 @@ GameObject:
   - component: {fileID: 3862807774204862079}
   - component: {fileID: 6511507408698917006}
   - component: {fileID: 7811028609585123512}
+  - component: {fileID: 9000125587066607659}
   - component: {fileID: 1418195334475284}
   - component: {fileID: 1418195334475283}
   m_Layer: 0
@@ -4821,8 +4822,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25e2c8ad45445bb428c3c3d58d3be8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 10
   FollowTarget: {fileID: 0}
   _Debug: 1
+--- !u!114 &9000125587066607659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3804049465333164889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788919e7686b45f43ac6f91807778a4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalHealth: 100
 --- !u!195 &1418195334475284
 NavMeshAgent:
   m_ObjectHideFlags: 0

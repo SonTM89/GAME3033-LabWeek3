@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Character.UI;
+using Systems.Health;
 
 namespace Character
 {
+    [RequireComponent(typeof(PlayerHealthComponent))]
     public class PlayerController : MonoBehaviour
     {
         public CrossHairScript CrossHair => CrossHairComponent;

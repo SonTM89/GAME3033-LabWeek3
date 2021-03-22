@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 public class ZombieComponent : MonoBehaviour
 {
+    public float ZombieDamage => Damage;
+    [SerializeField] private float Damage;
 
     public NavMeshAgent ZombieNavmesh { get; private set; }
     
