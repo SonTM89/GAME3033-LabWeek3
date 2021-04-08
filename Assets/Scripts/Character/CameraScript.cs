@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Character
 {
-    public class CameraScript : InputMonoBehaviour
+    public class CameraScript : MonoBehaviour
     {
         [SerializeField]
         private float RotationPower = 10;
@@ -22,14 +22,15 @@ namespace Character
 
         private new void Awake()
         {
-            base.Awake();
+            //base.Awake();
             FollowTargetTransform = FollowTarget.transform;
         }
 
-        private void OnLooked(InputAction.CallbackContext obj)
+        private void OnLook(InputValue obj)
         {
             //Debug.Log("Camera Rotate");
-            Vector2 aimValue = obj.ReadValue<Vector2>();
+            //Vector2 aimValue = obj.ReadValue<Vector2>();
+            Vector2 aimValue = obj.Get<Vector2>();
 
             Quaternion addedRoration = Quaternion.AngleAxis(Mathf.Lerp(PreviousMouseData.x, aimValue.x, 1f/ HorizontalDampling) * RotationPower, transform.up);
 
@@ -42,17 +43,17 @@ namespace Character
             FollowTargetTransform.localEulerAngles = Vector3.zero;
         }
 
-        private void OnEnable()
-        {
-            base.OnEnable();
-            GameInput.PlayerActionMap.Look.performed += OnLooked;
-        }
+        //private void OnEnable()
+        //{
+        //    base.OnEnable();
+        //    //GameInput.PlayerActionMap.Look.performed += OnLooked;
+        //}
 
-        private void OnDisable()
-        {
-            base.OnDisable();
-            GameInput.PlayerActionMap.Look.performed -= OnLooked;
-        }
+        //private void OnDisable()
+        //{
+        //    base.OnDisable();
+        //    //GameInput.PlayerActionMap.Look.performed -= OnLooked;
+        //}
     }
 }
 

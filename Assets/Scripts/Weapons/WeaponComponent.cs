@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Character;
 using Character.UI;
+using Scriptable_Objects;
 
 public enum WeaponType
 {
@@ -56,10 +57,15 @@ public class WeaponComponent : MonoBehaviour
         MainCamera = Camera.main;
     }
 
-    public void Initialize(WeaponHolder weaponHolder, CrossHairScript crossHair)
+    public void Initialize(WeaponHolder weaponHolder, WeaponScriptable weaponScriptable)
     {
         WeaponHolder = weaponHolder;
-        CrossHairComponent = crossHair;
+        CrossHairComponent = WeaponHolder.CrossHair;
+
+        if(weaponScriptable)
+        {
+            WeaponStats = weaponScriptable.weaponStats;
+        }
     }
 
     public virtual void StartFiringWeapon()
