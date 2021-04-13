@@ -15,7 +15,11 @@ namespace Scriptable_Objects
             }
         }
 
-        private bool m_Equipped;
+        private bool m_Equipped = false;
+
+        public delegate void EquipStatusChange();
+
+        public event EquipStatusChange OnEquipStatusChange;
 
         public override void UseItem(PlayerController _controller)
         {

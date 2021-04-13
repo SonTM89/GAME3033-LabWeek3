@@ -63,7 +63,7 @@ namespace Character
         void Start()
         {
 
-            EquipWeapon(WeaponToSpawn);    
+            if(WeaponToSpawn) EquipWeapon(WeaponToSpawn);    
         }
 
 
@@ -82,6 +82,8 @@ namespace Character
 
             //FiringPressed = pressed.ReadValue<float>() == 1 ? true : false;
             FiringPressed = pressed.isPressed;
+
+            if (EquippedWeapon == null) return;
 
             if(FiringPressed)
             {
@@ -126,6 +128,8 @@ namespace Character
         private void OnReload(InputValue button)
         {
             Debug.Log("On Reload");
+
+            if (EquippedWeapon == null) return;
 
             //bool isReloading = button.isPressed;
             StartReloading();
@@ -191,7 +195,7 @@ namespace Character
         {
             if (weaponScriptable == null) return;
 
-            GameObject spawnWeapon = Instantiate(WeaponToSpawn.ItemPrefab, WeaponSocketLocation.position, WeaponSocketLocation.rotation, WeaponSocketLocation);
+            GameObject spawnWeapon = Instantiate(weaponScriptable.ItemPrefab, WeaponSocketLocation.position, WeaponSocketLocation.rotation, WeaponSocketLocation);
 
             if (!spawnWeapon) return;
 

@@ -6,6 +6,7 @@ public class GameUIController : MonoBehaviour
 {
     [SerializeField] private GameHudWidget GameCanvas;
     [SerializeField] private GameHudWidget PauseCanvas;
+    [SerializeField] private GameHudWidget InventoryCanvas;
 
     private GameHudWidget ActiveWidget;
 
@@ -36,11 +37,21 @@ public class GameUIController : MonoBehaviour
         ActiveWidget.EnableWidget();
     }
 
+    public void EnableInventoryMenu()
+    {
+        if (ActiveWidget) ActiveWidget.DisableWidget();
+
+        ActiveWidget = InventoryCanvas;
+
+        ActiveWidget.EnableWidget();
+    }
+
 
     public void DisableAllMenus()
     {
         GameCanvas.DisableWidget();
         PauseCanvas.DisableWidget();
+        InventoryCanvas.DisableWidget();
     }
 }
 

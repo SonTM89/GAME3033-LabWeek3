@@ -46,9 +46,19 @@ public class ItemPickUpComponent : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         Debug.Log($"{PickUpItem.name} - PickUp");
-        ItemInstance.UseItem(other.GetComponent<PlayerController>());
 
-        Destroy(gameObject);
+        //ItemInstance.UseItem(other.GetComponent<PlayerController>());
+
+        //Destroy(gameObject);
+
+        InventoryComponent playerInventory = other.GetComponent<InventoryComponent>();
+
+        if(playerInventory)
+        {
+            playerInventory.AddItem(ItemInstance, Amount);
+
+            Destroy(gameObject);
+        }    
     }
 
 

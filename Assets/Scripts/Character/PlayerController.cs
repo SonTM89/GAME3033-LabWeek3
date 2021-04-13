@@ -5,6 +5,7 @@ using Character.UI;
 using Systems.Health;
 using UI.Menus;
 using UnityEngine.InputSystem;
+using System;
 
 namespace Character
 {
@@ -19,9 +20,13 @@ namespace Character
         public bool IsReloading;
         public bool IsJumping;
         public bool IsRunning;
+        public bool InInventory;
 
         public HealthComponent Health => healthComponent;
         private HealthComponent healthComponent;
+
+        public InventoryComponent Inventory => InventoryComponent;
+        private InventoryComponent InventoryComponent;
 
         public WeaponHolder WeaponHolder => weaponHolderComponent;
         private WeaponHolder weaponHolderComponent;
@@ -38,6 +43,7 @@ namespace Character
 
             if (healthComponent == null) healthComponent = GetComponent<HealthComponent>();
             if (weaponHolderComponent == null) weaponHolderComponent = GetComponent<WeaponHolder>();
+            if (InventoryComponent == null) InventoryComponent = GetComponent<InventoryComponent>();
         }
 
 
@@ -54,6 +60,36 @@ namespace Character
             PauseManager.Instance.UnpauseGame();
         }
 
+
+        public void OnInventory(InputValue button)
+        {
+            if(InInventory)
+            {
+                InInventory = false;
+
+                OpenIvnentory(false);
+            }
+            else
+            {
+                InInventory = true;
+
+                OpenIvnentory(true);
+            }
+        }
+
+        private void OpenIvnentory(bool open)
+        {
+            if(open)
+            {
+                PauseManager.Instance.PauseGame();
+                uIController.EnableInventoryMenu();
+            }
+            else
+            {
+                PauseManager.Instance.UnpauseGame();
+                uIController.EnableGameMenu();
+            }
+        }
 
         void IPausable.PauseMenu()
         {
