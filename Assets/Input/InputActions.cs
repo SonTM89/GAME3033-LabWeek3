@@ -88,7 +88,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""d529de65-fdd5-4e7b-a33b-01bbdffb9e65"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""LoadGame"",
@@ -96,7 +96,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""id"": ""d4f26272-15e6-4391-94b7-ad5e2f3e21ff"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [

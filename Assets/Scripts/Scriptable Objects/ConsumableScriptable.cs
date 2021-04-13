@@ -32,7 +32,6 @@ namespace Scriptable_Objects
     public class ItemSaveData : SaveDataBase
     {
         public int Amount;
-        private ItemScriptable item;
 
 
         public ItemSaveData(ItemScriptable item)

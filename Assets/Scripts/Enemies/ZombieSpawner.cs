@@ -4,39 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+[RequireComponent(typeof(SpawnerStateMachine))]
 public class ZombieSpawner : MonoBehaviour
 {
-    [SerializeField] private int NumberOfZombiesToSpawn;
+    [SerializeField] public GameObject[] ZombiePrefab;
 
-    [SerializeField] private GameObject[] ZombiePrefab;
+    [SerializeField] public SpawnerVolume[] SpawnVolumes;
 
-    [SerializeField] private SpawnerVolume[] SpawnVolumes;
-
+    public GameObject FollowTarget => FollowGameObject;
     private GameObject FollowGameObject;
+
+    private SpawnerStateMachine StateMachine;
 
     // Start is called before the first frame update
     void Start()
     {
+        StateMachine = GetComponent<SpawnerStateMachine>();
+
         FollowGameObject = GameObject.FindGameObjectWithTag("Player");
 
-        for(int index = 0; index < NumberOfZombiesToSpawn; index++)
+        ZombieWaveState beginnerWave = new ZombieWaveState(this, StateMachine)
         {
-            SpawnZombie();
-        }
-    }
+            ZombiesToSpawn = 10,
+            NextState = SpawnerStateEnum.Complete
+        };
 
-    private void SpawnZombie()
-    {
-        GameObject zombieToSpawn = ZombiePrefab[Random.Range(0, ZombiePrefab.Length)];
-        SpawnerVolume spawnVolume = SpawnVolumes[Random.Range(0, SpawnVolumes.Length)];
+        StateMachine.AddState(SpawnerStateEnum.Beginner, beginnerWave);
 
-        if (!FollowGameObject)
-        {
-            return;
-        }
-        
-        GameObject zombie = Instantiate(zombieToSpawn, spawnVolume.GetPositionInBounds(), spawnVolume.transform.rotation);
-
-        zombie.GetComponent<ZombieComponent>().Initialize(FollowGameObject);
+        StateMachine.Initialize(SpawnerStateEnum.Beginner);
     }
 }

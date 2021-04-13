@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dc48770d9162d541b7c10757eda43e6, type: 3}
-  m_Name: Ak-47
+  m_Name: AK-47
   m_EditorClassIdentifier: 
-  Name: Ak-47
+  Name: AK-47
   itemCategory: 1
   ItemPrefab: {fileID: 1739402000317134030, guid: 4031c0674c64bc14b886597a3a0e7344, type: 3}
   Stackable: 0

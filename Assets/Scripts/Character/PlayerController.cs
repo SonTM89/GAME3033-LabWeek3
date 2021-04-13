@@ -136,7 +136,7 @@ namespace Character
 
             saveData.itemList = ItemSaveList;
 
-            saveData.EquippedWeapon = !WeaponHolder.EquippedWeapon ? null : new WeaponSaveData(WeaponHolder.EquippedWeapon.WeaponInformation);
+            saveData.EquippedWeapon = (!WeaponHolder.EquippedWeapon) ? null : new WeaponSaveData(WeaponHolder.EquippedWeapon.WeaponInformation);
 
             return saveData;
         }
@@ -155,7 +155,7 @@ namespace Character
 
             foreach(ItemSaveData itemSaveData in playerData.itemList)
             {
-                ItemScriptable item = InventoryReferences.Instance.GetItemReferance(itemSaveData.Name);
+                ItemScriptable item = InventoryReferences.Instance.GetItemReference(itemSaveData.Name);
                 Inventory.AddItem(item, itemSaveData.Amount);
             }
 

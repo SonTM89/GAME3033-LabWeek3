@@ -5,11 +5,11 @@ using Systems.Health;
 
 public class ZombieHealthComponent : HealthComponent
 {
-    private StateMachine ZombieStateMachine;
+    private ZombieStateMachine ZombieStateMachine;
 
     private void Awake()
     {
-        ZombieStateMachine = GetComponent<StateMachine>();
+        ZombieStateMachine = GetComponent<ZombieStateMachine>();
     }
 
     public override void Destroy()

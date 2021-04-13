@@ -21,13 +21,13 @@ public class InventoryReferences : MonoBehaviour
             Instance = this;
         }
 
-        foreach(ItemScriptable item in ItemList)
+        foreach(ItemScriptable itemScriptable in ItemList)
         {
-            ItemDictionary.Add(item.Name, item);
+            ItemDictionary.Add(itemScriptable.Name, itemScriptable);
         }
     }
 
 
-    public ItemScriptable GetItemReferance(string itemName) =>
+    public ItemScriptable GetItemReference(string itemName) =>
         ItemDictionary.ContainsKey(itemName) ? ItemDictionary[itemName] : null;
 }

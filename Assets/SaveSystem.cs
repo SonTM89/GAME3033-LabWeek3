@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UI.Menus;
+using System;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class SaveSystem : MonoBehaviour
         string jSonString = PlayerPrefs.GetString(GameManager.Instance.GameSaveName);
         GameSave = JsonUtility.FromJson<GameSaveData>(jSonString);
 
-        //Load Game();
+        //LoadGame();
     }
 
 
@@ -92,6 +93,7 @@ public class SaveSystem : MonoBehaviour
 }
 
 
+[Serializable]
 public class GameSaveData
 {
     public PlayerSaveData playerSaveData;

@@ -11,9 +11,9 @@ namespace Character
 {
     public class WeaponHolder : MonoBehaviour
     {
-        [Header("Weapon To SPawn"), SerializeField]
+        [Header("Weapon To SPawn")]
         //private GameObject WeaponToSpawn;
-        private WeaponScriptable WeaponToSpawn;
+        [SerializeField] private WeaponScriptable WeaponToSpawn;
 
         [SerializeField]
         private Transform WeaponSocketLocation;
