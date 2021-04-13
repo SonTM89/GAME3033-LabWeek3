@@ -12,6 +12,7 @@ namespace Scriptable_Objects
             set
             {
                 m_Equipped = value;
+                OnEquipStatusChange?.Invoke();
             }
         }
 
@@ -23,7 +24,7 @@ namespace Scriptable_Objects
 
         public override void UseItem(PlayerController _controller)
         {
-            m_Equipped = !m_Equipped;
+            Equipped = !Equipped;
         }
     }
 }

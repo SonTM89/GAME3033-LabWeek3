@@ -30,12 +30,14 @@ namespace Character
 
         public CrossHairScript CrossHair => PlayerCrossHair;
         private CrossHairScript PlayerCrossHair;
+
         private Animator PlayerAnimator;
 
         //Ref
         private Camera ViewCamera;
 
-        private WeaponComponent EquippedWeapon;
+        public WeaponComponent EquippedWeapon => WeaponComponent;
+        private WeaponComponent WeaponComponent;
 
         private readonly int AimHorizontalHash = Animator.StringToHash("AimHorizontal");
         private readonly int AimVerticalHash = Animator.StringToHash("AimVertical");
@@ -78,14 +80,14 @@ namespace Character
 
         private void OnFire(InputValue pressed)
         {
-            Debug.Log("On Fire");
-
             //FiringPressed = pressed.ReadValue<float>() == 1 ? true : false;
             FiringPressed = pressed.isPressed;
 
-            if (EquippedWeapon == null) return;
+            if (WeaponComponent == null) return;
 
-            if(FiringPressed)
+            Debug.Log("On Fire");
+
+            if (FiringPressed)
             {
                 StartFiring();
             }
@@ -98,9 +100,9 @@ namespace Character
 
         public void StartFiring()
         {
-            if (EquippedWeapon == null) return;
+            if (WeaponComponent == null) return;
 
-            if (EquippedWeapon.WeaponInformation.BulletsAvailable <= 0 && EquippedWeapon.WeaponInformation.BulletsInClip <= 0)
+            if (WeaponComponent.WeaponInformation.BulletsAvailable <= 0 && WeaponComponent.WeaponInformation.BulletsInClip <= 0)
             {
                 return;
             }
@@ -109,27 +111,27 @@ namespace Character
 
             PlayerAnimator.SetBool(IsFiringHash, true);
 
-            EquippedWeapon.StartFiringWeapon();
+            WeaponComponent.StartFiringWeapon();
 
         }
 
         public void StopFiring()
         {
-            if (EquippedWeapon == null) return;
+            if (WeaponComponent == null) return;
 
             PlayerController.IsFiring = false;
 
             PlayerAnimator.SetBool(IsFiringHash, false);
 
-            EquippedWeapon.StopFiringWeapon();
+            WeaponComponent.StopFiringWeapon();
         }
 
 
         private void OnReload(InputValue button)
         {
-            Debug.Log("On Reload");
+            if (WeaponComponent == null) return;
 
-            if (EquippedWeapon == null) return;
+            Debug.Log("On Reload");
 
             //bool isReloading = button.isPressed;
             StartReloading();
@@ -138,9 +140,9 @@ namespace Character
 
         public void StartReloading()
         {
-            if (EquippedWeapon == null) return;
+            if (WeaponComponent == null) return;
 
-            if (EquippedWeapon.WeaponInformation.BulletsAvailable <= 0 && PlayerController.IsFiring)
+            if (WeaponComponent.WeaponInformation.BulletsAvailable <= 0 && PlayerController.IsFiring)
             {
                 StopFiring();
                 return;
@@ -149,19 +151,19 @@ namespace Character
 
             PlayerController.IsReloading = true;
             PlayerAnimator.SetBool(IsReloadingHash, true);
-            EquippedWeapon.StartReloading();
+            WeaponComponent.StartReloading();
 
             InvokeRepeating(nameof(StopReloading), 0, 0.1f);
         }
 
         private void StopReloading()
         {
-            if (EquippedWeapon == null) return;
+            if (WeaponComponent == null) return;
 
             if (PlayerAnimator.GetBool(IsReloadingHash)) return;
 
             PlayerController.IsReloading = false;
-            EquippedWeapon.StopReloading();
+            WeaponComponent.StopReloading();
             CancelInvoke(nameof(StopReloading));
 
             if (!WasFiring || !FiringPressed)
@@ -187,8 +189,8 @@ namespace Character
 
         public void UnEquipItem()
         {
-            Destroy(EquippedWeapon.gameObject);
-            EquippedWeapon = null;
+            Destroy(WeaponComponent.gameObject);
+            WeaponComponent = null;
         }
 
         public void EquipWeapon(WeaponScriptable weaponScriptable)
@@ -199,16 +201,16 @@ namespace Character
 
             if (!spawnWeapon) return;
 
-            EquippedWeapon = spawnWeapon.GetComponent<WeaponComponent>();
+            WeaponComponent = spawnWeapon.GetComponent<WeaponComponent>();
 
-            if (!EquippedWeapon) return;
+            if (!WeaponComponent) return;
 
-            EquippedWeapon.Initialize(this, weaponScriptable);
+            WeaponComponent.Initialize(this, weaponScriptable);
 
-            PlayerEvents.Invoke_OnWeaponEquipped(EquippedWeapon);
+            PlayerEvents.Invoke_OnWeaponEquipped(WeaponComponent);
 
-            GripIKLocation = EquippedWeapon.GripLocation;
-            PlayerAnimator.SetInteger(WeaponTypeHash, (int)EquippedWeapon.WeaponInformation.WeaponType);
+            GripIKLocation = WeaponComponent.GripLocation;
+            PlayerAnimator.SetInteger(WeaponTypeHash, (int)WeaponComponent.WeaponInformation.WeaponType);
         }
     }
 }

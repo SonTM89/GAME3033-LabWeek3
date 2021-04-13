@@ -1,4 +1,5 @@
 ﻿using Character;
+using System;
 using UnityEngine;
 
 namespace Scriptable_Objects
@@ -20,6 +21,19 @@ namespace Scriptable_Objects
             }
 
             base.UseItem(_controller);
+        }
+    }
+
+    
+    [Serializable]
+    public class WeaponSaveData : SaveDataBase
+    {
+        public WeaponStats weaponStats;
+
+        public WeaponSaveData(WeaponStats _weaponStats)
+        {
+            Name = _weaponStats.WeaponName;
+            weaponStats = _weaponStats;
         }
     }
 }

@@ -6,11 +6,13 @@ using Systems.Health;
 using UI.Menus;
 using UnityEngine.InputSystem;
 using System;
+using Scriptable_Objects;
+using System.Linq;
 
 namespace Character
 {
     [RequireComponent(typeof(PlayerHealthComponent))]
-    public class PlayerController : MonoBehaviour, IPausable
+    public class PlayerController : MonoBehaviour, IPausable, ISavable
     {
         public CrossHairScript CrossHair => CrossHairComponent;
         [SerializeField]
@@ -63,7 +65,7 @@ namespace Character
 
         public void OnInventory(InputValue button)
         {
-            if(InInventory)
+            if (InInventory)
             {
                 InInventory = false;
 
@@ -79,7 +81,7 @@ namespace Character
 
         private void OpenIvnentory(bool open)
         {
-            if(open)
+            if (open)
             {
                 PauseManager.Instance.PauseGame();
                 uIController.EnableInventoryMenu();
@@ -103,6 +105,85 @@ namespace Character
             uIController.EnableGameMenu();
             playerInput.SwitchCurrentActionMap("PlayerActionMap");
         }
+
+
+        public void OnSaveGame(InputValue button)
+        {
+            SaveSystem.Instance.SaveGame();
+        }
+
+
+        public void OnLoadGame(InputValue button)
+        {
+            SaveSystem.Instance.LoadGame();
+        }
+
+
+        public SaveDataBase SaveData()
+        {
+            Transform playerTransform = transform;
+
+            PlayerSaveData saveData = new PlayerSaveData
+            {
+                Name = gameObject.name,
+                CurrentHealth = Health.Health,
+                Position = playerTransform.position,
+                Rotation = playerTransform.rotation
+            };
+
+            List<ItemSaveData> ItemSaveList = Inventory.GetItemList().Select(
+                item => new ItemSaveData(item)).ToList();
+
+            saveData.itemList = ItemSaveList;
+
+            saveData.EquippedWeapon = !WeaponHolder.EquippedWeapon ? null : new WeaponSaveData(WeaponHolder.EquippedWeapon.WeaponInformation);
+
+            return saveData;
+        }
+
+        public void LoadData(SaveDataBase saveData)
+        {
+            PlayerSaveData playerData = (PlayerSaveData)saveData;
+
+            if (playerData == null) return;
+
+            Transform playerTransform = transform;
+            playerTransform.position = playerData.Position;
+            playerTransform.rotation = playerData.Rotation;
+
+            Health.SetCurrentHealth(playerData.CurrentHealth);
+
+            foreach(ItemSaveData itemSaveData in playerData.itemList)
+            {
+                ItemScriptable item = InventoryReferences.Instance.GetItemReferance(itemSaveData.Name);
+                Inventory.AddItem(item, itemSaveData.Amount);
+            }
+
+            if (playerData.EquippedWeapon == null) return;
+
+            WeaponScriptable weapon = (WeaponScriptable)Inventory.FindItem(playerData.EquippedWeapon.Name);
+
+            if (!weapon) return;
+
+            weapon.weaponStats = playerData.EquippedWeapon.weaponStats;
+            WeaponHolder.EquipWeapon(weapon);
+        }
+    }
+
+
+
+    [Serializable]
+    public class PlayerSaveData : SaveDataBase
+    {
+        public float CurrentHealth;
+
+        public Vector3 Position;
+
+        public Quaternion Rotation;
+
+        public WeaponSaveData EquippedWeapon;
+
+        public List<ItemSaveData> itemList = new List<ItemSaveData>();
     }
 
 }

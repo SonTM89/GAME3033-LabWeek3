@@ -1,4 +1,5 @@
 using Character;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,22 @@ namespace Scriptable_Objects
             {
                 DeleteItem(_controller);
             }
+        }
+    }
+
+
+
+    [Serializable]
+    public class ItemSaveData : SaveDataBase
+    {
+        public int Amount;
+        private ItemScriptable item;
+
+
+        public ItemSaveData(ItemScriptable item)
+        {
+            Name = item.Name;
+            Amount = item.Amount;
         }
     }
 }

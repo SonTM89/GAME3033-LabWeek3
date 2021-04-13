@@ -50,5 +50,10 @@ namespace Systems.Health
             Debug.Log("You Died!");
             //Destroy(gameObject);
         }
+
+        public void SetCurrentHealth(float currentHealth)
+        {
+            CurrentHealth = currentHealth;
+        }
     }
 }
